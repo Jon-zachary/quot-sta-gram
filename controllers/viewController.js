@@ -9,11 +9,16 @@ module.exports = {
   },
 
   showQuotes(req, res) {
-     res.json(res.locals.quotes);
+     res.render('./quotes/quote-index',{
+      data: res.locals.quotes,
+    }
+      );
   },
 
   showOne(req, res) {
-    res.json(res.locals.quote);
+   res.render('./quotes/quote-single', {
+    data: res.locals.quote,
+   })
   },
 
   handleCreate(req, res) {
@@ -21,11 +26,24 @@ module.exports = {
   },
 
   handleUpdate(req, res) {
+    console.log('req wuz here');
     res.redirect(`/quotes/${req.params.id}`);
   },
 
   handleDelete(req, res) {
     res.redirect('/quotes');
   },
+
+  showAddForm(req, res) {
+    res.render('./quotes/quote-add', {
+      data: res.locals.quote,
+    });
+  },
+
+  showEditForm(req, res) {
+    res.render('./quotes/quote-edit', {
+      data: res.locals.quote,
+    })
+  }
 
 };

@@ -1,28 +1,34 @@
 // Required resources always go first
 // TODO: [1] bring in the express library
-const express    = require('express');
-const logger     = require('morgan');
-const bodyParser = require('body-parser');
-
-const quotesRouter = require('./routes/quotes');
-
+const express        = require('express');
+const logger         = require('morgan');
+const bodyParser     = require('body-parser');
+const path           = require('path')
+const quotesRouter   = require('./routes/quotes');
+const methodOverride = require('method-override');
 // TODO: [2] create a PORT variable that checks the process.env or defaults to 3000
 const PORT = process.env.PORT || 3000;
 
 // TODO: [3] Start up express
 const app = express();
-
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'ejs');
 // TODO: [8] set up logging
 app.use(logger('dev'));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-
+app.use(methodOverride('_method'));
 /* ROUTES */
 app.use('/quotes', quotesRouter);
 
 // TODO: [4] Create a GET request handler for '/' (home).
 // send '<h1>Hello World!</h1>' to the user
-app.get('/', (req, res) => res.send('<h1>Hello World!</h1>'));
+app.get('/', (req, res) => res.render('index',
+ {
+  message: 'Hello you!!!',
+  subtitle: 'welcome to the quoter',
+  quoteAuthors: ['yo mama', 'yo papa', 'yo whole generation'],
+}));
 
 app.post('/test', (req, res) => {
   res.json(req.body);
