@@ -54,6 +54,7 @@ module.exports = {
   getOne(req, res, next) {
     quoteDB.findById(req.params.id)
       .then((quote) => {
+        console.log(quote);
         res.locals.quote = quote;
         next();
       })

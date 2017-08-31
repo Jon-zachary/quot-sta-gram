@@ -40,9 +40,11 @@ module.exports = {
    */
   findById(id) {
     return db.one(`
-      SELECT *
-        FROM quotes
-       WHERE id = $1
+     SELECT quotes.id, content, author, genres.genre
+     FROM quotes 
+     INNER JOIN genres
+     ON quotes.genre_type = genres.id
+     WHERE quotes.id = $1;
     `, id);
   },
 
